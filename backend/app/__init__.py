@@ -1,0 +1,1 @@
+"""PixelForge AI — FastAPI backend."""
