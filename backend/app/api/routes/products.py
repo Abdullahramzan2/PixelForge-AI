@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
 from app.db.models.user import User
+from app.schemas.auth import MessageResponse
 from app.schemas.product import (
     EnhanceProductRequest,
     ProductImageListResponse,
@@ -23,6 +24,7 @@ from app.services.image_pipeline import resolve_provider
 from app.services.product_pipeline import (
     ALLOWED_CONTENT_TYPES,
     create_product_upload,
+    delete_user_product,
     enhance_product_image,
     get_user_product,
     list_user_products,
@@ -123,6 +125,20 @@ def product_history(
     products = list_user_products(db, current_user.id)
     items = [_to_response(product) for product in products]
     return ProductImageListResponse(items=items, total=len(items))
+
+
+@router.delete("/{product_id}", response_model=MessageResponse)
+def delete_product(
+    product_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Delete a product upload and its associated image files."""
+    deleted = delete_user_product(db, current_user.id, product_id)
+    if not deleted:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+
+    return MessageResponse(message="Product deleted successfully")
 
 
 @router.get("/{product_id}/original")

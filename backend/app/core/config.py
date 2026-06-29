@@ -32,16 +32,24 @@ class Settings(BaseSettings):
     DATABASE_URL: str = ""
 
     HUGGINGFACE_API_TOKEN: str = ""
-    REPLICATE_API_TOKEN: str = ""
     STABILITY_API_KEY: str = ""
     REMOVEBG_API_KEY: str = ""
+
+    @field_validator(
+        "HUGGINGFACE_API_TOKEN",
+        "STABILITY_API_KEY",
+        "REMOVEBG_API_KEY",
+        mode="before",
+    )
+    @classmethod
+    def strip_secret(cls, value: str | None) -> str:
+        if value is None:
+            return ""
+        return str(value).strip()
 
     DEFAULT_IMAGE_PROVIDER: str = "huggingface"
     HUGGINGFACE_MODEL_ID: str = "stabilityai/stable-diffusion-xl-base-1.0"
     HUGGINGFACE_PROVIDER: str = "auto"
-    REPLICATE_MODEL_ID: str = (
-        "stability-ai/sdxl:39ed52f2a78e934b3f6dbe2e753761bfb444af834e0c7adcb731818f41d035ac"
-    )
     STABILITY_ENGINE_ID: str = "stable-diffusion-xl-1024-v1-0"
 
     UPLOAD_DIR: str = "./uploads"

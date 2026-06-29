@@ -6,17 +6,17 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.db.models.generation import Generation
 from app.db.models.user import User
-from app.services import huggingface, replicate_provider, stability
 from app.services.exceptions import ImageGenerationError, ProviderNotConfiguredError
-from app.services.storage import save_generation_image
-from app.services.styles import STYLE_PRESETS, build_styled_prompt
+from app.services.huggingface import generate_image as huggingface_generate_image
+from app.services.stability import generate_image as stability_generate_image
+from app.services.storage import delete_generation_file, save_generation_image
+from app.services.styles import build_styled_prompt
 
 ProviderFunc = Callable[[str], Awaitable[bytes]]
 
 PROVIDERS: dict[str, ProviderFunc] = {
-    "huggingface": huggingface.generate_image,
-    "replicate": replicate_provider.generate_image,
-    "stability": stability.generate_image,
+    "huggingface": huggingface_generate_image,
+    "stability": stability_generate_image,
 }
 
 
@@ -81,3 +81,14 @@ def get_user_generation(db: Session, user_id: int, generation_id: int) -> Genera
             Generation.user_id == user_id,
         )
     )
+
+
+def delete_user_generation(db: Session, user_id: int, generation_id: int) -> bool:
+    generation = get_user_generation(db, user_id, generation_id)
+    if generation is None:
+        return False
+
+    delete_generation_file(generation.image_path)
+    db.delete(generation)
+    db.commit()
+    return True

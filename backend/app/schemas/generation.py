@@ -4,7 +4,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, field_validator
 
 StyleLiteral = Literal["luxury", "minimal", "outdoor"]
-ProviderLiteral = Literal["huggingface", "replicate", "stability"]
+ProviderLiteral = Literal["huggingface", "stability"]
 
 
 class TextToImageRequest(BaseModel):

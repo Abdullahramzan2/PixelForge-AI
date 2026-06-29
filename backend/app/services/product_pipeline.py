@@ -4,10 +4,12 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.db.models.product import ProductImage
 from app.db.models.user import User
+from app.services import exceptions as generation_errors
 from app.services.image_pipeline import PROVIDERS, resolve_provider
 from app.services.removebg import remove_background
 from app.services.storage import (
     composite_product_on_background,
+    delete_product_files,
     resolve_upload_path,
     save_generation_image,
     save_upload_image,
@@ -88,7 +90,7 @@ async def enhance_product_image(
         db.commit()
         db.refresh(product)
         return product
-    except (ImageGenerationError, ProviderNotConfiguredError, ValueError) as exc:
+    except (generation_errors.ImageGenerationError, ValueError) as exc:
         product.status = "failed"
         product.error_message = str(exc)
         db.commit()
@@ -113,3 +115,14 @@ def get_user_product(db: Session, user_id: int, product_id: int) -> ProductImage
             ProductImage.user_id == user_id,
         )
     )
+
+
+def delete_user_product(db: Session, user_id: int, product_id: int) -> bool:
+    product = get_user_product(db, user_id, product_id)
+    if product is None:
+        return False
+
+    delete_product_files(product.original_path, product.enhanced_path)
+    db.delete(product)
+    db.commit()
+    return True

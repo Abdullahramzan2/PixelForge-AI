@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
 from app.db.models.user import User
+from app.schemas.auth import MessageResponse
 from app.schemas.generation import (
     GenerationListResponse,
     GenerationResponse,
@@ -20,13 +21,14 @@ from app.services.exceptions import (
     ProviderNotConfiguredError,
 )
 from app.services.image_pipeline import (
-    STYLE_PRESETS,
+    delete_user_generation,
     generate_text_to_image,
     get_user_generation,
     list_user_generations,
     resolve_provider,
 )
 from app.services.storage import resolve_image_path
+from app.services.styles import STYLE_PRESETS
 
 router = APIRouter()
 
@@ -110,6 +112,23 @@ def generation_history(
     generations = list_user_generations(db, current_user.id)
     items = [_to_response(generation) for generation in generations]
     return GenerationListResponse(items=items, total=len(items))
+
+
+@router.delete("/{generation_id}", response_model=MessageResponse)
+def delete_generation(
+    generation_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Delete a generation and its image file."""
+    deleted = delete_user_generation(db, current_user.id, generation_id)
+    if not deleted:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Generation not found",
+        )
+
+    return MessageResponse(message="Generation deleted successfully")
 
 
 @router.get("/{generation_id}/image")

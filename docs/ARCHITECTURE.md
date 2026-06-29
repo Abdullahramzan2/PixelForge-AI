@@ -12,8 +12,8 @@ PixelForge AI is a monorepo with a **FastAPI** backend and **Next.js** frontend.
                                          │
                     ┌────────────────────┼────────────────────┐
                     ▼                    ▼                    ▼
-              Hugging Face          Replicate           Stability AI
-              (SD free)             (SD API)            (Official SD)
+              Hugging Face           Stability AI
+              (SD free)              (Official SD)
                     │
                     ▼
                remove.bg
@@ -23,7 +23,7 @@ PixelForge AI is a monorepo with a **FastAPI** backend and **Next.js** frontend.
 ## Image Generation Flow
 
 1. User submits prompt or uploads product image via frontend
-2. Backend validates request and selects provider (Hugging Face / Replicate / Stability)
+2. Backend validates request and selects provider (Hugging Face / Stability)
 3. For product enhancement: remove.bg strips background, then SD generates new scene
 4. Result stored in `generated/` and metadata saved to database
 5. Frontend displays result and history

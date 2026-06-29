@@ -9,7 +9,7 @@ Intelligent image generation platform for creating realistic visuals and profess
 | Backend | FastAPI, Python |
 | Frontend | Next.js, React, Tailwind CSS |
 | Database | PostgreSQL |
-| Image generation | Stable Diffusion via Hugging Face, Replicate, Stability AI |
+| Image generation | Stable Diffusion via Hugging Face, Stability AI |
 | Background removal | remove.bg API |
 
 ## Project Structure
@@ -83,7 +83,7 @@ App: http://localhost:3000
 - **Text-to-image** — Generate images from natural language prompts
 - **Product enhancement** — Upload product photos and improve backgrounds, lighting, and appeal
 - **Style presets** — Luxury, minimal, outdoor, and more
-- **Multi-provider** — Switch between Hugging Face, Replicate, and Stability AI
+- **Multi-provider** — Switch between Hugging Face and Stability AI
 
 ## License
 

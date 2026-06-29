@@ -48,6 +48,24 @@ def resolve_image_path(image_path: str) -> Path:
     return path.resolve()
 
 
+def delete_generation_file(image_path: str) -> None:
+    path = resolve_image_path(image_path)
+    if path.is_file():
+        path.unlink()
+
+
+def delete_upload_file(image_path: str) -> None:
+    path = resolve_upload_path(image_path)
+    if path.is_file():
+        path.unlink()
+
+
+def delete_product_files(original_path: str, enhanced_path: str | None) -> None:
+    delete_upload_file(original_path)
+    if enhanced_path:
+        delete_generation_file(enhanced_path)
+
+
 def composite_product_on_background(cutout_bytes: bytes, background_bytes: bytes) -> bytes:
     background = Image.open(io.BytesIO(background_bytes)).convert("RGBA")
     product = Image.open(io.BytesIO(cutout_bytes)).convert("RGBA")
