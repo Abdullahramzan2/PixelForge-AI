@@ -60,4 +60,9 @@ PostgreSQL runs locally on your machine (no Docker). See [DATABASE.md](DATABASE.
 | POST | `/api/v1/generation/text-to-image` | Yes | Generate image from prompt |
 | GET | `/api/v1/generation/history` | Yes | List past generations |
 | GET | `/api/v1/generation/{id}/image` | Yes | Download generated image |
+| POST | `/api/v1/products/upload` | Yes | Upload product photo |
+| POST | `/api/v1/products/enhance` | Yes | Enhance product with style |
+| GET | `/api/v1/products/history` | Yes | List product enhancements |
+| GET | `/api/v1/products/{id}/original` | Yes | Download original upload |
+| GET | `/api/v1/products/{id}/enhanced` | Yes | Download enhanced image |
 | GET | `/health` | No | Health check |

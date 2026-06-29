@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, generation
+from app.api.routes import auth, generation, products
 from app.core.config import settings
 from app.services.storage import ensure_storage_dirs
 
@@ -31,6 +31,7 @@ app.add_middleware(
 
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(generation.router, prefix="/api/v1/generation", tags=["generation"])
+app.include_router(products.router, prefix="/api/v1/products", tags=["products"])
 
 
 @app.get("/health")

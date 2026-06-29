@@ -8,6 +8,7 @@ from app.db.base import Base
 
 if TYPE_CHECKING:
     from app.db.models.generation import Generation
+    from app.db.models.product import ProductImage
 
 
 class User(Base):
@@ -29,3 +30,4 @@ class User(Base):
     )
 
     generations: Mapped[list["Generation"]] = relationship(back_populates="user")
+    product_images: Mapped[list["ProductImage"]] = relationship(back_populates="user")

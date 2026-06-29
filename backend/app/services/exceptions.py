@@ -16,3 +16,7 @@ class ProviderAPIError(ImageGenerationError):
 
 class ProviderConnectionError(ImageGenerationError):
     """Raised when the provider cannot be reached."""
+
+
+class BackgroundRemovalError(ImageGenerationError):
+    """Raised when background removal fails."""

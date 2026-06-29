@@ -9,18 +9,7 @@ from app.db.models.user import User
 from app.services import huggingface, replicate_provider, stability
 from app.services.exceptions import ImageGenerationError, ProviderNotConfiguredError
 from app.services.storage import save_generation_image
-
-STYLE_SUFFIXES: dict[str, str] = {
-    "luxury": "luxury aesthetic, premium lighting, high-end commercial photography, elegant",
-    "minimal": "minimal clean background, soft shadows, modern product photography, simple",
-    "outdoor": "natural outdoor setting, lifestyle photography, golden hour lighting",
-}
-
-STYLE_PRESETS = [
-    {"id": "luxury", "name": "Luxury", "description": "Premium, high-end aesthetic"},
-    {"id": "minimal", "name": "Minimal", "description": "Clean, simple, modern look"},
-    {"id": "outdoor", "name": "Outdoor", "description": "Natural, lifestyle outdoor setting"},
-]
+from app.services.styles import STYLE_PRESETS, build_styled_prompt
 
 ProviderFunc = Callable[[str], Awaitable[bytes]]
 
@@ -32,10 +21,7 @@ PROVIDERS: dict[str, ProviderFunc] = {
 
 
 def build_prompt(user_prompt: str, style: str | None) -> str:
-    prompt = user_prompt.strip()
-    if style and style in STYLE_SUFFIXES:
-        return f"{prompt}, {STYLE_SUFFIXES[style]}"
-    return prompt
+    return build_styled_prompt(user_prompt, style)
 
 
 def resolve_provider(provider: str | None) -> str:
