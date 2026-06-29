@@ -1,0 +1,5 @@
+[TYPECHECK]
+generated-members=alembic.op,op
+
+[MESSAGES CONTROL]
+disable=no-member

@@ -48,10 +48,12 @@ PostgreSQL runs locally on your machine (no Docker). See [DATABASE.md](DATABASE.
 
 ## API Routes
 
-| Method | Endpoint                    | Description              |
-|--------|-----------------------------|--------------------------|
-| POST   | `/api/v1/generation/text-to-image` | Generate from prompt |
-| GET    | `/api/v1/generation/history`         | List past generations |
-| POST   | `/api/v1/products/upload`            | Upload product photo  |
-| POST   | `/api/v1/products/enhance`           | Enhance product image |
-| GET    | `/api/v1/styles/`                    | List style presets    |
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/api/v1/auth/signup` | No | Register a new account |
+| POST | `/api/v1/auth/login` | No | Log in with email or username |
+| GET | `/api/v1/auth/me` | Yes | Get current user profile |
+| PUT | `/api/v1/auth/username` | Yes | Update username |
+| PUT | `/api/v1/auth/password` | Yes | Update password |
+| DELETE | `/api/v1/auth/account` | Yes | Delete account (requires password) |
+| GET | `/health` | No | Health check |

@@ -1,3 +1,6 @@
+"""Alembic migration environment."""
+# pylint: disable=no-member
+# pyright: reportAttributeAccessIssue=false
 import sys
 from logging.config import fileConfig
 from pathlib import Path
@@ -10,7 +13,7 @@ from sqlalchemy import engine_from_config, pool
 
 from app.core.config import settings
 from app.db.base import Base
-from app.db.models import Generation, ProductImage, User  # noqa: F401
+from app.db.models import User  # pylint: disable=unused-import
 
 config = context.config
 

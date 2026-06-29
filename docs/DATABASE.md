@@ -75,7 +75,37 @@ Visit http://localhost:8000/health — you should get `{"status":"ok",...}`.
 | `generations`   | Text-to-image generation history     |
 | `product_images`| Product uploads and enhancements     |
 
-## Useful commands
+## Troubleshooting
+
+### `password authentication failed for user "pixelforge"`
+
+PostgreSQL is running, but the `pixelforge` user/database has not been created yet (or the password does not match `.env`).
+
+**Fix — run the setup script** (from project root):
+
+```powershell
+.\backend\scripts\setup_postgres.ps1
+```
+
+Enter the password you chose when installing PostgreSQL for the `postgres` superuser.
+
+**Or run SQL manually** in pgAdmin / SQL Shell:
+
+```sql
+CREATE USER pixelforge WITH PASSWORD 'pixelforge';
+CREATE DATABASE pixelforge OWNER pixelforge;
+GRANT ALL PRIVILEGES ON DATABASE pixelforge TO pixelforge;
+```
+
+If your `.env` uses different credentials, either update the SQL above or change `POSTGRES_USER` / `POSTGRES_PASSWORD` in `.env` to match what you created.
+
+Then retry:
+
+```powershell
+cd backend
+alembic upgrade head
+```
+
 
 ```powershell
 # Check migration status

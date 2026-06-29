@@ -2,5 +2,12 @@
   "include": ["app", "alembic", "tests"],
   "extraPaths": ["."],
   "venvPath": ".",
-  "venv": ".venv"
+  "venv": "venv",
+  "executionEnvironments": [
+    {
+      "root": "alembic/versions",
+      "extraPaths": ["..", "../.."],
+      "reportAttributeAccessIssue": "none"
+    }
+  ]
 }

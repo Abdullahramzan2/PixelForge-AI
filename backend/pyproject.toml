@@ -1,0 +1,6 @@
+[tool.pylint.typecheck]
+generated-members = [
+    "alembic.context",
+    "alembic.op",
+    "op",
+]

@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     DEBUG: bool = True
     SECRET_KEY: str = "change-me"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 
     BACKEND_HOST: str = "0.0.0.0"
     BACKEND_PORT: int = 8000
