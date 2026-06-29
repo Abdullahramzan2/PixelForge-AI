@@ -13,7 +13,7 @@ from sqlalchemy import engine_from_config, pool
 
 from app.core.config import settings
 from app.db.base import Base
-from app.db.models import User  # pylint: disable=unused-import
+from app.db.models import Generation, User  # pylint: disable=unused-import
 
 config = context.config
 

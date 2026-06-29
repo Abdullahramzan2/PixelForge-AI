@@ -55,5 +55,9 @@ PostgreSQL runs locally on your machine (no Docker). See [DATABASE.md](DATABASE.
 | GET | `/api/v1/auth/me` | Yes | Get current user profile |
 | PUT | `/api/v1/auth/username` | Yes | Update username |
 | PUT | `/api/v1/auth/password` | Yes | Update password |
-| DELETE | `/api/v1/auth/account` | Yes | Delete account (requires password) |
+| DELETE | `/api/v1/auth/account` | Yes | Delete account |
+| GET | `/api/v1/generation/styles` | No | List style presets |
+| POST | `/api/v1/generation/text-to-image` | Yes | Generate image from prompt |
+| GET | `/api/v1/generation/history` | Yes | List past generations |
+| GET | `/api/v1/generation/{id}/image` | Yes | Download generated image |
 | GET | `/health` | No | Health check |
