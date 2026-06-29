@@ -1,11 +1,3 @@
-export type StylePreset = {
-  id: string;
-  name: string;
-  description: string;
-};
-
-export type GenerationRequest = {
-  prompt: string;
-  style?: string;
-  provider?: "huggingface" | "replicate" | "stability";
-};
+export type { StylePreset, StyleId, ProviderId, Generation, TextToImagePayload } from "./generation";
+export type { ProductImage, EnhanceProductPayload } from "./product";
+export type { User, AuthResponse } from "./auth";
