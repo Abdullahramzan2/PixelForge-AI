@@ -7,9 +7,9 @@ type ShowcasePanelProps = {
 export function ShowcasePanel({ className = "" }: ShowcasePanelProps) {
   return (
     <div
-      className={`relative flex min-h-[280px] flex-col justify-between overflow-hidden bg-slate-900 sm:min-h-[360px] lg:min-h-screen lg:w-1/2 ${className}`}
+      className={`relative flex min-h-[45vh] w-full flex-col justify-between overflow-hidden bg-slate-900 md:min-h-0 md:h-full ${className}`}
     >
-      <ImageCarousel className="absolute inset-0" />
+      <ImageCarousel className="absolute inset-0 h-full w-full" />
       <div className="absolute inset-0 bg-gradient-to-br from-brand-900/85 via-brand-800/75 to-slate-900/85" />
 
       <div className="relative z-10 flex flex-1 flex-col justify-center px-8 py-10 lg:px-10 xl:px-16">

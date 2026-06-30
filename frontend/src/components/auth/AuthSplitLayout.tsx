@@ -19,10 +19,10 @@ export function AuthSplitLayout({
   footerLinkHref,
 }: AuthSplitLayoutProps) {
   return (
-    <main className="flex min-h-screen flex-col lg:flex-row">
-      <ShowcasePanel />
+    <main className="grid min-h-screen grid-cols-1 md:grid-cols-2 md:h-screen md:overflow-hidden">
+      <ShowcasePanel className="md:min-h-0 md:h-full" />
 
-      <div className="flex w-full flex-col justify-center bg-gradient-to-br from-brand-50 via-white to-slate-100 px-4 py-12 lg:w-1/2 lg:px-12 xl:px-20">
+      <div className="flex w-full flex-col justify-center bg-gradient-to-br from-brand-50 via-white to-slate-100 px-4 py-12 md:px-12 md:py-0 xl:px-20">
         <div className="mx-auto w-full max-w-md">
           <div className="mb-8 text-center lg:text-left">
             <Link href="/" className="text-2xl font-bold text-slate-900">

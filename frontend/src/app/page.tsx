@@ -1,24 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { ShowcasePanel } from "@/components/auth/ShowcasePanel";
+import { ImageCarousel } from "@/components/auth/ImageCarousel";
 import { useAuth } from "@/context/AuthProvider";
 
 export default function HomePage() {
   const { user, isAuthenticated, isLoading, logout } = useAuth();
 
   return (
-    <main className="flex min-h-screen flex-col lg:flex-row">
-      <ShowcasePanel />
+    <main className="grid min-h-screen grid-cols-1 md:grid-cols-2 md:h-screen md:overflow-hidden">
+      {/* Left: rotating showcase images */}
+      <div className="relative min-h-[45vh] md:min-h-0 md:h-full">
+        <ImageCarousel className="absolute inset-0 h-full w-full" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10" />
+      </div>
 
-      <div className="flex w-full flex-col justify-center bg-gradient-to-br from-brand-50 via-white to-slate-100 px-6 py-12 lg:w-1/2 lg:px-12 xl:px-20">
-        <div className="mx-auto w-full max-w-md text-center lg:text-left">
+      {/* Right: sign in / sign up */}
+      <div className="flex flex-col justify-center bg-gradient-to-br from-brand-50 via-white to-slate-100 px-6 py-12 md:px-12 md:py-0 xl:px-20">
+        <div className="mx-auto w-full max-w-md text-center md:text-left">
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
             PixelForge <span className="text-brand-600">AI</span>
           </h1>
           <p className="mt-4 text-lg text-slate-600">
             Create realistic visuals and professional product images with AI.
-            Describe what you want or upload a product photo to get started.
           </p>
 
           {!isLoading && isAuthenticated && user ? (
@@ -28,7 +32,7 @@ export default function HomePage() {
             </p>
           ) : null}
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-start">
             {!isLoading && isAuthenticated ? (
               <>
                 <Link
