@@ -9,7 +9,7 @@ import {
   fetchStyles,
   uploadProduct,
 } from "@/lib/api";
-import { AuthenticatedImage } from "@/components/ui/AuthenticatedImage";
+import { ExpandableAuthenticatedImage } from "@/components/ui/ExpandableAuthenticatedImage";
 import { Button } from "@/components/ui/Button";
 import type { StyleId, StylePreset } from "@/types/generation";
 import type { ProductImage } from "@/types/product";
@@ -251,10 +251,11 @@ export function ProductsPanel() {
                 <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
                   Original
                 </p>
-                <AuthenticatedImage
+                <ExpandableAuthenticatedImage
                   src={selected.original_url}
                   alt="Original product"
-                  className="aspect-square w-full rounded-xl object-cover"
+                  className="aspect-square w-full rounded-xl"
+                  downloadFilename={`product-${selected.id}-original.png`}
                 />
               </div>
               <div>
@@ -262,10 +263,11 @@ export function ProductsPanel() {
                   Enhanced
                 </p>
                 {selected.enhanced_url ? (
-                  <AuthenticatedImage
+                  <ExpandableAuthenticatedImage
                     src={selected.enhanced_url}
                     alt="Enhanced product"
-                    className="aspect-square w-full rounded-xl object-cover"
+                    className="aspect-square w-full rounded-xl"
+                    downloadFilename={`product-${selected.id}-enhanced.png`}
                   />
                 ) : (
                   <div className="flex aspect-square items-center justify-center rounded-xl bg-slate-100 text-sm text-slate-500">
@@ -288,42 +290,70 @@ export function ProductsPanel() {
           ) : history.length === 0 ? (
             <p className="mt-4 text-sm text-slate-500">No uploads yet.</p>
           ) : (
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-4 space-y-4">
               {history.map((item) => (
-                <li key={item.id}>
-                  <div
-                    className={`flex items-center gap-3 rounded-xl border p-3 transition ${
-                      selected?.id === item.id
-                        ? "border-brand-300 bg-brand-50"
-                        : "border-slate-100"
-                    }`}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setSelected(item)}
-                      className="flex min-w-0 flex-1 items-center gap-3 text-left"
-                    >
-                      <AuthenticatedImage
+                <li
+                  key={item.id}
+                  className={`rounded-xl border p-3 transition ${
+                    selected?.id === item.id
+                      ? "border-brand-300 bg-brand-50"
+                      : "border-slate-100"
+                  }`}
+                >
+                  <div className="flex gap-3">
+                    <div className="flex shrink-0 gap-2">
+                      <ExpandableAuthenticatedImage
                         src={item.original_url}
-                        alt={`Product ${item.id}`}
-                        className="h-14 w-14 shrink-0 rounded-lg object-cover"
+                        alt={`Product ${item.id} original`}
+                        className="h-20 w-20 rounded-lg"
+                        downloadFilename={`product-${item.id}-original.png`}
+                        expandHint="Original"
                       />
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-slate-900">Product #{item.id}</p>
-                        <p className="text-xs text-slate-500">
+                      {item.enhanced_url ? (
+                        <ExpandableAuthenticatedImage
+                          src={item.enhanced_url}
+                          alt={`Product ${item.id} enhanced`}
+                          className="h-20 w-20 rounded-lg"
+                          downloadFilename={`product-${item.id}-enhanced.png`}
+                          expandHint="Enhanced"
+                        />
+                      ) : (
+                        <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-slate-100 px-1 text-center text-[10px] leading-tight text-slate-500">
+                          {item.status === "processing"
+                            ? "Processing..."
+                            : item.status === "failed"
+                              ? "Failed"
+                              : "Not enhanced"}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex min-w-0 flex-1 flex-col justify-between">
+                      <button
+                        type="button"
+                        onClick={() => setSelected(item)}
+                        className="text-left"
+                      >
+                        <p className="text-sm font-medium text-slate-900">
+                          Product #{item.id}
+                        </p>
+                        <p className="mt-1 text-xs text-slate-500">
                           {item.status}
                           {item.style ? ` · ${item.style}` : ""}
                         </p>
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(item.id)}
-                      disabled={deletingId === item.id}
-                      className="shrink-0 text-xs font-semibold text-red-600 hover:text-red-700 disabled:opacity-60"
-                    >
-                      {deletingId === item.id ? "Deleting..." : "Delete"}
-                    </button>
+                        <p className="mt-1 text-xs text-brand-600">
+                          View in preview
+                        </p>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(item.id)}
+                        disabled={deletingId === item.id}
+                        className="mt-2 self-start text-xs font-semibold text-red-600 hover:text-red-700 disabled:opacity-60"
+                      >
+                        {deletingId === item.id ? "Deleting..." : "Delete"}
+                      </button>
+                    </div>
                   </div>
                 </li>
               ))}
